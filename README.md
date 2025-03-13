@@ -26,6 +26,7 @@
 - 改进：将Python错误消息改为Python信息，提升用户体验
 - 修复：移除"预测结果中没有电路数据"的警告信息，改为静默处理
 - 优化：更新README.md文件，增加emoji图标和表格布局
+- 整理：添加项目文档，包括架构说明、贡献指南和开发指南
 
 ### 2024年3月12日更新
 - 全新设计的科学仪表盘界面，提供更专业的数据展示
@@ -34,6 +35,14 @@
 - 添加响应式布局，支持多种屏幕尺寸
 - 优化中心圆显示效果，增强数据可读性
 - 更新系统图标，提升整体视觉效果
+
+### 2023年3月12日更新
+- 移除了访问令牌相关代码，简化API认证流程
+- 改进了API设置面板，添加了更多说明信息
+- 修复了中文字符显示问题，确保JSON正确解析
+- 增强了错误处理，提供更友好的错误提示
+- 优化了Bloch球的显示效果，使其更加直观和美观
+- 添加了对国盾量子SDK缺失情况的处理，自动切换到模拟模式
 
 ## 💻 技术栈
 
@@ -127,6 +136,9 @@ quantum-fortune-teller/
 ├── quantum-bridge.py    # Python桥接脚本
 ├── start.js             # 启动脚本
 ├── package.json         # 项目配置
+├── ARCHITECTURE.md      # 架构说明
+├── CONTRIBUTING.md      # 贡献指南
+├── DEVELOPMENT.md       # 开发指南
 └── README.md            # 项目说明
 ```
 
@@ -181,94 +193,24 @@ MIT License
 
 ## 🤝 贡献指南
 
-欢迎提交问题和功能请求。如果您想贡献代码，请遵循以下步骤：
+欢迎提交问题和功能请求。如果您想贡献代码，请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 文件获取详细指南。
 
+简要步骤：
 1. Fork 仓库
 2. 创建您的特性分支 (`git checkout -b feature/amazing-feature`)
 3. 提交您的更改 (`git commit -m 'Add some amazing feature'`)
 4. 推送到分支 (`git push origin feature/amazing-feature`)
 5. 打开一个 Pull Request
+
+## 📚 相关文档
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构和核心组件说明
+- [CONTRIBUTING.md](CONTRIBUTING.md) - 贡献指南
+- [DEVELOPMENT.md](DEVELOPMENT.md) - 开发环境设置和常见开发任务
 
 ## 🙏 致谢
 
 - 感谢Electron社区的支持
 - 感谢所有为本项目做出贡献的开发者
 - 特别感谢量子物理学家的研究成果，为本项目提供了理论基础
-
-## 项目结构
-
-```
-quantum-fortune-teller/
-├── assets/              # 图标和资源文件
-├── styles/              # CSS样式文件
-├── index.html           # 主页面
-├── main.js             # Electron主进程
-├── preload.js          # 预加载脚本
-├── quantum-engine.js    # 量子算法引擎
-├── quantum-indicators.js # 量子指标显示组件
-├── start.js            # 启动脚本
-├── package.json        # 项目配置
-└── README.md           # 项目说明
-```
-
-## 贡献指南
-
-欢迎提交问题和功能请求。如果您想贡献代码，请遵循以下步骤：
-
-1. Fork 仓库
-2. 创建您的特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交您的更改 (`git commit -m 'Add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 打开一个 Pull Request
-
-## 致谢
-
-- 感谢所有为本项目做出贡献的开发者
-- 特别感谢量子物理学家的研究成果，为本项目提供了理论基础 
-
-## 最近更新
-
-### 2024年3月12日更新
-- 全新设计的科学仪表盘界面，提供更专业的数据展示
-- 优化仪表盘UI，增加现代感和交互性
-- 改进指针动画和渐变效果，提升用户体验
-- 添加响应式布局，支持多种屏幕尺寸
-- 优化中心圆显示效果，增强数据可读性
-- 更新系统图标，提升整体视觉效果
-
-### 2023年3月12日更新
-- 移除了访问令牌相关代码，简化API认证流程
-- 改进了API设置面板，添加了更多说明信息
-- 修复了中文字符显示问题，确保JSON正确解析
-- 增强了错误处理，提供更友好的错误提示
-- 优化了Bloch球的显示效果，使其更加直观和美观
-- 添加了对国盾量子SDK缺失情况的处理，自动切换到模拟模式
-
-## 使用方法
-
-### 安装依赖
-```bash
-npm install
-```
-
-### 运行应用
-```bash
-npm start
-```
-
-### API设置
-1. 点击界面右上角的"API设置"按钮
-2. 输入您的国盾量子API密钥
-3. 点击"保存设置"按钮保存设置
-4. 点击"测试连接"按钮测试连接
-
-如果您没有API密钥，系统将使用模拟模式运行。
-
-## 功能特点
-- 基于量子计算的运势预测
-- 支持多种预测范围（今日、本周、本月、年度）
-- 量子指标可视化
-- Bloch球表示量子态
-- 量子教育内容
-- 支持连接真实量子计算机（需要API密钥）
 
