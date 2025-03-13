@@ -14,13 +14,15 @@
 
 ## 下载说明
 
+您可以直接从GitHub仓库下载发布包：
+
 ### Windows版本
-- 下载 `quantum-fortune-teller-windows-x64.zip`
+- 下载链接：[quantum-fortune-teller-windows-x64.zip](https://github.com/silenson/quantum-fortune-teller/raw/master/release/quantum-fortune-teller-windows-x64.zip)
 - 解压到任意位置
 - 双击 `量子运势预测系统.exe` 运行
 
 ### Linux版本
-- 下载 `quantum-fortune-teller-linux-x64.zip`
+- 下载链接：[quantum-fortune-teller-linux-x64.zip](https://github.com/silenson/quantum-fortune-teller/raw/master/release/quantum-fortune-teller-linux-x64.zip)
 - 解压到任意位置
 - 运行 `./quantum-fortune-teller` 启动程序
 
