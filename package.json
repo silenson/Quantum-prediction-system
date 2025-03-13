@@ -8,10 +8,12 @@
     "dev": "cross-env NODE_ENV=development electron .",
     "clean": "rimraf build dist",
     "prebuild": "npm run clean",
-    "build": "node build.js",
+    "build": "node tools/build.js",
     "package": "electron-packager . quantum-fortune-teller --platform=win32,darwin,linux --arch=x64 --out=dist --overwrite",
-    "make-installer": "node electron-builder.js",
-    "release": "npm run build && npm run make-installer",
+    "make-installer": "node tools/electron-builder.js",
+    "release": "npm run build && node tools/package.js",
+    "create-icons": "node tools/create-ico.js",
+    "convert-svg": "node tools/svg-to-png.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },
@@ -28,7 +30,9 @@
     "electron-builder": "^24.9.1",
     "electron-packager": "^17.1.2",
     "eslint": "^8.57.0",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "sharp": "^0.33.5",
+    "to-ico": "^1.1.5"
   },
   "dependencies": {
     "axios": "^1.8.2",
