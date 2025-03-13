@@ -121,16 +121,26 @@ quantum-fortune-teller/
 │   ├── lib/             # 第三方库
 │   └── quantum-*.js     # 量子相关功能模块
 ├── styles/              # CSS样式文件
+├── docs/                # 项目文档
+│   ├── ARCHITECTURE.md  # 架构说明
+│   ├── BUILD.md         # 构建说明
+│   ├── CONTRIBUTING.md  # 贡献指南
+│   └── DEVELOPMENT.md   # 开发指南
+├── tools/               # 工具脚本
+│   ├── build.js         # 构建脚本
+│   ├── electron-builder.js # 安装程序创建脚本
+│   └── package-release.bat # 打包发布脚本
+├── release/             # 发布文件
 ├── index.html           # 主页面
 ├── main.js              # Electron主进程
 ├── preload.js           # 预加载脚本
 ├── quantum-engine.js    # 量子算法引擎
 ├── quantum-bridge.py    # Python桥接脚本
 ├── start.js             # 启动脚本
+├── config.js            # 配置文件
 ├── package.json         # 项目配置
-├── ARCHITECTURE.md      # 架构说明
-├── CONTRIBUTING.md      # 贡献指南
-├── DEVELOPMENT.md       # 开发指南
+├── RELEASE_NOTES.md     # 发布说明
+├── LICENSE              # 许可证
 └── README.md            # 项目说明
 ```
 
@@ -190,7 +200,7 @@ MIT License
 
 ## 🤝 贡献指南
 
-欢迎提交问题和功能请求。如果您想贡献代码，请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 文件获取详细指南。
+欢迎提交问题和功能请求。如果您想贡献代码，请查看 [CONTRIBUTING.md](docs/CONTRIBUTING.md) 文件获取详细指南。
 
 简要步骤：
 1. Fork 仓库
@@ -201,10 +211,10 @@ MIT License
 
 ## 📚 相关文档
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构和核心组件说明
-- [CONTRIBUTING.md](CONTRIBUTING.md) - 贡献指南
-- [DEVELOPMENT.md](DEVELOPMENT.md) - 开发环境设置和常见开发任务
-- [BUILD.md](BUILD.md) - 构建和打包应用的详细说明
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - 系统架构和核心组件说明
+- [CONTRIBUTING.md](docs/CONTRIBUTING.md) - 贡献指南
+- [DEVELOPMENT.md](docs/DEVELOPMENT.md) - 开发环境设置和常见开发任务
+- [BUILD.md](docs/BUILD.md) - 构建和打包应用的详细说明
 
 ## 🙏 致谢
 

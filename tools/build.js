@@ -59,11 +59,13 @@ function copyFiles(buildDir) {
     'preload.js',
     'quantum-engine.js',
     'quantum-bridge.py',
+    'quantum-indicators.js',
     'start.js',
     'config.js',
     'package.json',
     'LICENSE',
-    'README.md'
+    'README.md',
+    'requirements.txt'
   ];
 
   const directoriesToCopy = [
@@ -118,9 +120,22 @@ function copyDirectory(source, destination) {
 
 // 安装生产依赖
 function installDependencies(buildDir) {
-  log('安装生产依赖...', colors.cyan);
+  log('安装依赖...', colors.cyan);
   process.chdir(buildDir);
-  execSync('npm install --production', { stdio: 'inherit' });
+  
+  // 复制package-lock.json以加速安装
+  if (fs.existsSync(path.join(__dirname, 'package-lock.json'))) {
+    fs.copyFileSync(
+      path.join(__dirname, 'package-lock.json'),
+      path.join(buildDir, 'package-lock.json')
+    );
+    log('  - 已复制: package-lock.json', colors.dim);
+  }
+  
+  // 安装所有依赖，包括开发依赖
+  log('  - 安装所有依赖...', colors.dim);
+  execSync('npm install', { stdio: 'inherit' });
+  
   process.chdir(__dirname);
 }
 

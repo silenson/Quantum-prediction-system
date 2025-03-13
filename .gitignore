@@ -60,4 +60,12 @@ coverage/
 quantum-fortune-teller-master/
 
 # 忽略临时文件
-how* 
+how*
+*~
+*.bak
+*.tmp
+*.swp
+
+# 忽略合并文件目录
+/combined/
+/split-files/ 

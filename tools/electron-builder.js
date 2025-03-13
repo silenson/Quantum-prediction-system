@@ -125,7 +125,26 @@ async function main() {
   
   try {
     const result = await builder.build({
-      config: config
+      config: {
+        ...config,
+        directories: {
+          output: path.join(__dirname, 'dist'),
+          buildResources: path.join(__dirname, 'assets')
+        },
+        files: [
+          "dist/**/*",
+          "build/**/*",
+          "package.json"
+        ],
+        win: {
+          target: [
+            {
+              target: "nsis",
+              arch: ["x64"]
+            }
+          ]
+        }
+      }
     });
     
     log('安装程序创建成功!', colors.bright + colors.green);

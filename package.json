@@ -28,12 +28,12 @@
     "electron-builder": "^24.9.1",
     "electron-packager": "^17.1.2",
     "eslint": "^8.57.0",
-    "mathjs": "^12.3.0",
     "rimraf": "^5.0.5"
   },
   "dependencies": {
     "axios": "^1.8.2",
     "chart.js": "^4.4.1",
+    "mathjs": "^12.3.0",
     "moment": "^2.30.1"
   },
   "build": {
@@ -58,18 +58,7 @@
       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
-    },
-    "mac": {
-      "target": "dmg",
-      "icon": "assets/icon.icns",
-      "category": "public.app-category.lifestyle"
-    },
-    "linux": {
-      "target": ["AppImage", "deb"],
-      "icon": "assets/icon.png",
-      "category": "Utility"
+      "target": "nsis"
     },
     "nsis": {
       "oneClick": false,
@@ -77,29 +66,6 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "量子运势预测系统"
-    },
-    "dmg": {
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
-        },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ],
-      "window": {
-        "width": 540,
-        "height": 380
-      }
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "silenson",
-      "repo": "quantum-fortune-teller"
     }
   },
   "repository": {
