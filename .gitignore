@@ -51,4 +51,10 @@ release/
 
 # 其他
 .cache/
-coverage/ 
+coverage/
+
+# 忽略嵌套的项目目录
+quantum-fortune-teller-master/
+
+# 忽略临时文件
+how* 
