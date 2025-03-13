@@ -21,6 +21,7 @@
 提供以下版本：
 - **Windows版本**：`quantum-fortune-teller-windows-x64.zip`
 - **Linux版本**：`quantum-fortune-teller-linux-x64.zip`
+- **macOS版本**：`quantum-fortune-teller-macos-x64.zip`
 
 ### 安装步骤
 
@@ -34,6 +35,11 @@
 2. 解压文件到任意位置
 3. 打开终端，进入解压目录
 4. 运行`./quantum-fortune-teller`启动程序
+
+#### macOS安装：
+1. 下载`quantum-fortune-teller-macos-x64.zip`
+2. 解压文件到任意位置
+3. 双击应用程序或拖动到Applications文件夹
 
 ### 便携式使用
 本应用为便携式应用，无需安装，解压后即可使用。您可以将其复制到U盘或其他存储设备上随身携带。
@@ -50,8 +56,15 @@
 
 ## 🚀 最新更新
 
+### 2024年3月13日更新 (v1.2.2)
+- **新增**：专业图标生成工具，支持ICO和ICNS格式
+- **优化**：使用Node.js脚本替代批处理文件进行打包，提高跨平台兼容性
+- **修复**：解决Windows图标格式问题，确保应用图标正确显示
+- **改进**：优化macOS版本打包流程，避免权限问题
+- **新增**：SVG转PNG工具，支持矢量图形转换
+
 ### 2024年3月13日更新 (v1.2.1)
-- **新增**：便携式发布包，支持Windows和Linux平台
+- **新增**：便携式发布包，支持Windows、Linux和macOS平台
 - **修复**：解决了mathjs依赖问题，确保应用正常运行
 - **改进**：将Python错误消息改为Python信息，提升用户体验
 - **修复**：移除"预测结果中没有电路数据"的警告信息，改为静默处理
@@ -66,14 +79,6 @@
 - 优化中心圆显示效果，增强数据可读性
 - 更新系统图标，提升整体视觉效果
 
-### 2023年3月12日更新
-- 移除了访问令牌相关代码，简化API认证流程
-- 改进了API设置面板，添加了更多说明信息
-- 修复了中文字符显示问题，确保JSON正确解析
-- 增强了错误处理，提供更友好的错误提示
-- 优化了Bloch球的显示效果，使其更加直观和美观
-- 添加了对国盾量子SDK缺失情况的处理，自动切换到模拟模式
-
 ## 💻 技术栈
 
 - 框架：Electron
@@ -81,6 +86,7 @@
 - 量子计算：自定义量子计算引擎
 - 可视化：D3.js
 - API集成：RESTful API
+- 图像处理：Sharp, to-ico
 
 ## 🔧 系统要求
 
@@ -95,6 +101,7 @@
 1. 启动应用：
    - Windows: 双击解压目录中的`量子运势预测系统.exe`
    - Linux: 运行解压目录中的`quantum-fortune-teller`可执行文件
+   - macOS: 双击应用程序或从Applications文件夹启动
 
 2. 配置API密钥（可选）：
    - 点击设置图标
@@ -117,6 +124,8 @@
 ```
 quantum-fortune-teller/
 ├── assets/              # 图标和资源文件
+│   ├── icons/           # SVG图标文件
+│   └── images/          # 应用图片资源
 ├── scripts/             # JavaScript脚本文件
 │   ├── lib/             # 第三方库
 │   └── quantum-*.js     # 量子相关功能模块
@@ -128,8 +137,11 @@ quantum-fortune-teller/
 │   └── DEVELOPMENT.md   # 开发指南
 ├── tools/               # 工具脚本
 │   ├── build.js         # 构建脚本
-│   ├── electron-builder.js # 安装程序创建脚本
-│   └── package-release.bat # 打包发布脚本
+│   ├── package.js       # 打包脚本(Node.js版)
+│   ├── create-ico.js    # 图标生成脚本
+│   ├── svg-to-png.js    # SVG转PNG工具
+│   ├── cleanup.js       # 项目清理脚本
+│   └── electron-builder.js # 安装程序创建脚本
 ├── release/             # 发布文件
 ├── index.html           # 主页面
 ├── main.js              # Electron主进程
@@ -158,6 +170,16 @@ quantum-fortune-teller/
 | 纯度 | 表示预测的准确度 |
 | 干涉 | 表示外部影响的程度 |
 | 保真度 | 表示预测的可信度 |
+
+## 🛠️ 开发工具
+
+| 工具 | 说明 |
+|------|------|
+| create-ico.js | 生成标准ICO和ICNS图标文件 |
+| svg-to-png.js | 将SVG矢量图转换为PNG格式 |
+| package.js | 打包应用为发布版本 |
+| cleanup.js | 清理临时文件和构建目录 |
+| build.js | 构建跨平台应用程序 |
 
 ## 🔍 故障排除
 

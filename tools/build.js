@@ -6,7 +6,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const packageJson = require('./package.json');
+const packageJson = require('../package.json');
 
 // 颜色输出
 const colors = {
@@ -29,7 +29,8 @@ function log(message, color = colors.reset) {
 // 创建构建目录
 function createBuildDir() {
   log('创建构建目录...', colors.cyan);
-  const buildDir = path.join(__dirname, 'build');
+  const rootDir = path.resolve(__dirname, '..');
+  const buildDir = path.join(rootDir, 'build');
   if (!fs.existsSync(buildDir)) {
     fs.mkdirSync(buildDir);
   }
@@ -53,6 +54,7 @@ function cleanBuildDir(buildDir) {
 // 复制必要的文件到构建目录
 function copyFiles(buildDir) {
   log('复制文件到构建目录...', colors.cyan);
+  const rootDir = path.resolve(__dirname, '..');
   const filesToCopy = [
     'index.html',
     'main.js',
@@ -76,7 +78,7 @@ function copyFiles(buildDir) {
 
   // 复制文件
   for (const file of filesToCopy) {
-    const sourcePath = path.join(__dirname, file);
+    const sourcePath = path.join(rootDir, file);
     const destPath = path.join(buildDir, file);
     if (fs.existsSync(sourcePath)) {
       fs.copyFileSync(sourcePath, destPath);
@@ -88,7 +90,7 @@ function copyFiles(buildDir) {
 
   // 复制目录
   for (const dir of directoriesToCopy) {
-    const sourceDir = path.join(__dirname, dir);
+    const sourceDir = path.join(rootDir, dir);
     const destDir = path.join(buildDir, dir);
     if (fs.existsSync(sourceDir)) {
       copyDirectory(sourceDir, destDir);
@@ -124,9 +126,10 @@ function installDependencies(buildDir) {
   process.chdir(buildDir);
   
   // 复制package-lock.json以加速安装
-  if (fs.existsSync(path.join(__dirname, 'package-lock.json'))) {
+  const rootDir = path.resolve(__dirname, '..');
+  if (fs.existsSync(path.join(rootDir, 'package-lock.json'))) {
     fs.copyFileSync(
-      path.join(__dirname, 'package-lock.json'),
+      path.join(rootDir, 'package-lock.json'),
       path.join(buildDir, 'package-lock.json')
     );
     log('  - 已复制: package-lock.json', colors.dim);
@@ -136,7 +139,7 @@ function installDependencies(buildDir) {
   log('  - 安装所有依赖...', colors.dim);
   execSync('npm install', { stdio: 'inherit' });
   
-  process.chdir(__dirname);
+  process.chdir(rootDir);
 }
 
 // 使用electron-packager打包应用
@@ -183,7 +186,8 @@ function main() {
     // createInstallers(); // 取消注释以创建安装程序
 
     log('构建完成!', colors.bright + colors.green);
-    log(`输出目录: ${path.join(__dirname, 'dist')}`, colors.green);
+    const rootDir = path.resolve(__dirname, '..');
+    log(`输出目录: ${path.join(rootDir, 'dist')}`, colors.green);
   } catch (error) {
     log(`构建失败: ${error.message}`, colors.bright + colors.red);
     process.exit(1);

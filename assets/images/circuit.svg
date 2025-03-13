@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="800" height="400" fill="#1a1a2e"/>
+  
+  <!-- 标题 -->
+  <text x="400" y="40" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="24">量子运势预测电路</text>
+  
+  <!-- 量子比特线 -->
+  <line x1="100" y1="100" x2="700" y2="100" stroke="#ffffff" stroke-width="2"/>
+  <line x1="100" y1="200" x2="700" y2="200" stroke="#ffffff" stroke-width="2"/>
+  <line x1="100" y1="300" x2="700" y2="300" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- 量子比特标签 -->
+  <text x="80" y="105" text-anchor="end" fill="#ffffff" font-family="Arial" font-size="16">q₀</text>
+  <text x="80" y="205" text-anchor="end" fill="#ffffff" font-family="Arial" font-size="16">q₁</text>
+  <text x="80" y="305" text-anchor="end" fill="#ffffff" font-family="Arial" font-size="16">q₂</text>
+  
+  <!-- 哈达玛门 -->
+  <rect x="150" y="75" width="50" height="50" fill="#4d7aff" rx="5"/>
+  <text x="175" y="105" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">H</text>
+  
+  <rect x="150" y="175" width="50" height="50" fill="#4d7aff" rx="5"/>
+  <text x="175" y="205" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">H</text>
+  
+  <rect x="150" y="275" width="50" height="50" fill="#4d7aff" rx="5"/>
+  <text x="175" y="305" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">H</text>
+  
+  <!-- CNOT门 -->
+  <circle cx="275" cy="100" r="15" fill="none" stroke="#ff5e78" stroke-width="2"/>
+  <line x1="275" y1="100" x2="275" y2="200" stroke="#ff5e78" stroke-width="2"/>
+  <circle cx="275" cy="200" r="15" fill="#ff5e78"/>
+  <line x1="268" y1="200" x2="282" y2="200" stroke="#ffffff" stroke-width="2"/>
+  <line x1="275" y1="193" x2="275" y2="207" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- 旋转门 -->
+  <rect x="350" y="75" width="50" height="50" fill="#7b2cbf" rx="5"/>
+  <text x="375" y="105" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">Rz</text>
+  
+  <rect x="350" y="175" width="50" height="50" fill="#7b2cbf" rx="5"/>
+  <text x="375" y="205" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">Rx</text>
+  
+  <!-- Toffoli门 -->
+  <circle cx="475" cy="100" r="15" fill="none" stroke="#ff5e78" stroke-width="2"/>
+  <line x1="475" y1="100" x2="475" y2="300" stroke="#ff5e78" stroke-width="2"/>
+  <circle cx="475" cy="200" r="15" fill="none" stroke="#ff5e78" stroke-width="2"/>
+  <circle cx="475" cy="300" r="15" fill="#ff5e78"/>
+  <line x1="468" y1="300" x2="482" y2="300" stroke="#ffffff" stroke-width="2"/>
+  <line x1="475" y1="293" x2="475" y2="307" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- 相位门 -->
+  <rect x="550" y="75" width="50" height="50" fill="#ffcc00" rx="5"/>
+  <text x="575" y="105" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">S</text>
+  
+  <rect x="550" y="175" width="50" height="50" fill="#ffcc00" rx="5"/>
+  <text x="575" y="205" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">T</text>
+  
+  <rect x="550" y="275" width="50" height="50" fill="#ffcc00" rx="5"/>
+  <text x="575" y="305" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="20">Z</text>
+  
+  <!-- 测量 -->
+  <path d="M650 75 L650 125 L675 100 Z" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <path d="M650 175 L650 225 L675 200 Z" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <path d="M650 275 L650 325 L675 300 Z" fill="none" stroke="#ffffff" stroke-width="2"/>
+  
+  <line x1="675" y1="100" x2="700" y2="100" stroke="#ffffff" stroke-width="2"/>
+  <line x1="675" y1="200" x2="700" y2="200" stroke="#ffffff" stroke-width="2"/>
+  <line x1="675" y1="300" x2="700" y2="300" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- 波形效果 -->
+  <path d="M100 350 Q 150 330, 200 350 Q 250 370, 300 350 Q 350 330, 400 350 Q 450 370, 500 350 Q 550 330, 600 350 Q 650 370, 700 350" 
+        stroke="#4d7aff" stroke-width="2" fill="none"/>
+</svg> 
