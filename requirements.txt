@@ -1,0 +1,22 @@
+# 量子运势预测系统 Python 依赖
+# 安装方法: pip install -r requirements.txt
+
+# 量子计算库
+qiskit==0.45.1
+qiskit-aer==0.12.2
+qiskit-ibm-runtime==0.18.0
+
+# 科学计算
+numpy==1.26.3
+scipy==1.12.0
+pandas==2.2.0
+matplotlib==3.8.2
+
+# 数据处理
+sympy==1.12.0
+networkx==3.2.1
+
+# 其他工具
+tqdm==4.66.1
+pytz==2023.3
+python-dateutil==2.8.2 
