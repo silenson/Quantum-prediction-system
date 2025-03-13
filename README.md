@@ -10,6 +10,34 @@
   <img src="assets/icon.png" alt="量子运势预测系统" width="200">
 </p>
 
+## 📥 下载与安装
+
+### 最新版本下载
+
+您可以从以下链接下载最新版本的量子运势预测系统：
+
+- [GitHub Releases页面](https://github.com/silenson/quantum-fortune-teller/releases/latest)
+
+提供以下版本：
+- **Windows版本**：`quantum-fortune-teller-windows-x64.zip`
+- **Linux版本**：`quantum-fortune-teller-linux-x64.zip`
+
+### 安装步骤
+
+#### Windows安装：
+1. 下载`quantum-fortune-teller-windows-x64.zip`
+2. 解压文件到任意位置
+3. 双击`量子运势预测系统.exe`运行程序
+
+#### Linux安装：
+1. 下载`quantum-fortune-teller-linux-x64.zip`
+2. 解压文件到任意位置
+3. 打开终端，进入解压目录
+4. 运行`./quantum-fortune-teller`启动程序
+
+### 便携式使用
+本应用为便携式应用，无需安装，解压后即可使用。您可以将其复制到U盘或其他存储设备上随身携带。
+
 ## 🌟 功能特点
 
 - 基于出生日期的量子运势预测
@@ -22,11 +50,13 @@
 
 ## 🚀 最新更新
 
-### 2024年3月13日更新
-- 改进：将Python错误消息改为Python信息，提升用户体验
-- 修复：移除"预测结果中没有电路数据"的警告信息，改为静默处理
-- 优化：更新README.md文件，增加emoji图标和表格布局
-- 整理：添加项目文档，包括架构说明、贡献指南和开发指南
+### 2024年3月13日更新 (v1.2.1)
+- **新增**：便携式发布包，支持Windows和Linux平台
+- **修复**：解决了mathjs依赖问题，确保应用正常运行
+- **改进**：将Python错误消息改为Python信息，提升用户体验
+- **修复**：移除"预测结果中没有电路数据"的警告信息，改为静默处理
+- **优化**：更新README.md文件，增加emoji图标和表格布局
+- **整理**：添加项目文档，包括架构说明、贡献指南和开发指南
 
 ### 2024年3月12日更新
 - 全新设计的科学仪表盘界面，提供更专业的数据展示
@@ -60,49 +90,11 @@
 - 至少4GB RAM
 - 500MB可用磁盘空间
 
-## 📥 安装说明
-
-### 从发布版安装
-
-1. 访问[Releases](https://github.com/silenson/quantum-fortune-teller/releases)页面
-2. 下载适合您系统的安装包：
-   - Windows: `.exe`安装文件
-   - macOS: `.dmg`安装文件
-   - Linux: `.AppImage`或`.deb`包
-
-### 从源码构建
-
-1. 克隆项目仓库：
-```bash
-git clone https://github.com/silenson/quantum-fortune-teller.git
-```
-
-2. 进入项目目录：
-```bash
-cd quantum-fortune-teller
-```
-
-3. 安装依赖：
-```bash
-npm install
-```
-
-4. 启动应用：
-```bash
-npm start
-```
-
-5. 构建应用：
-```bash
-npm run build
-```
-
 ## 📊 使用方法
 
 1. 启动应用：
-   - Windows: 双击安装目录中的程序图标
-   - macOS: 从应用程序文件夹启动
-   - Linux: 使用应用启动器或命令行启动
+   - Windows: 双击解压目录中的`量子运势预测系统.exe`
+   - Linux: 运行解压目录中的`quantum-fortune-teller`可执行文件
 
 2. 配置API密钥（可选）：
    - 点击设置图标
@@ -161,15 +153,20 @@ quantum-fortune-teller/
 
 1. 应用无法启动
    - 检查系统要求是否满足
-   - 确认安装完整性
+   - 确认解压是否完整
    - 查看日志文件
 
-2. API连接问题
+2. 出现"Cannot find module"错误
+   - 确保完整解压所有文件
+   - 不要移动或删除解压目录中的任何文件
+   - 重新下载并解压应用程序
+
+3. API连接问题
    - 验证API密钥是否正确
    - 检查网络连接
    - 确认API服务状态
 
-3. 显示异常
+4. 显示异常
    - 更新显卡驱动
    - 调整系统缩放设置
    - 重启应用程序
