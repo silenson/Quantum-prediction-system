@@ -207,6 +207,7 @@ MIT License
 - [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构和核心组件说明
 - [CONTRIBUTING.md](CONTRIBUTING.md) - 贡献指南
 - [DEVELOPMENT.md](DEVELOPMENT.md) - 开发环境设置和常见开发任务
+- [BUILD.md](BUILD.md) - 构建和打包应用的详细说明
 
 ## 🙏 致谢
 
