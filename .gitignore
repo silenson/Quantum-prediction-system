@@ -26,7 +26,9 @@ yarn-error.log*
 
 # 构建输出
 /out/
-/release/
+# 允许跟踪release目录中的ZIP文件
+/release/*
+!/release/*.zip
 
 # 本地配置文件
 .env
@@ -43,7 +45,8 @@ coverage/
 
 # Electron打包
 dist-electron/
-release/
+# 允许跟踪release目录中的ZIP文件
+# release/
 *.exe
 *.dmg
 *.AppImage
