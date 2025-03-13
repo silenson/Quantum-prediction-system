@@ -1,8 +1,16 @@
 # 量子运势预测系统
 
+![版本](https://img.shields.io/badge/版本-1.2.1-blue)
+![许可证](https://img.shields.io/badge/许可证-MIT-green)
+![平台](https://img.shields.io/badge/平台-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+
 这是一个基于Electron开发的桌面应用程序，利用量子计算原理为用户提供个性化的运势分析和可视化。本应用将量子计算的概念与运势预测相结合，通过直观的界面展示预测结果。
 
-## 功能特点
+<p align="center">
+  <img src="assets/icon.png" alt="量子运势预测系统" width="200">
+</p>
+
+## 🌟 功能特点
 
 - 基于出生日期的量子运势预测
 - 支持日、周、月、年不同时间跨度的预测
@@ -12,7 +20,22 @@
 - 跨平台支持 (Windows, macOS, Linux)
 - 本地化运算，保护隐私
 
-## 技术栈
+## 🚀 最新更新
+
+### 2024年3月13日更新
+- 改进：将Python错误消息改为Python信息，提升用户体验
+- 修复：移除"预测结果中没有电路数据"的警告信息，改为静默处理
+- 优化：更新README.md文件，增加emoji图标和表格布局
+
+### 2024年3月12日更新
+- 全新设计的科学仪表盘界面，提供更专业的数据展示
+- 优化仪表盘UI，增加现代感和交互性
+- 改进指针动画和渐变效果，提升用户体验
+- 添加响应式布局，支持多种屏幕尺寸
+- 优化中心圆显示效果，增强数据可读性
+- 更新系统图标，提升整体视觉效果
+
+## 💻 技术栈
 
 - 框架：Electron
 - 前端：HTML5, CSS3, JavaScript
@@ -20,7 +43,7 @@
 - 可视化：D3.js
 - API集成：RESTful API
 
-## 系统要求
+## 🔧 系统要求
 
 - Windows 10及以上
 - macOS 10.13及以上
@@ -28,11 +51,11 @@
 - 至少4GB RAM
 - 500MB可用磁盘空间
 
-## 安装说明
+## 📥 安装说明
 
 ### 从发布版安装
 
-1. 访问[Releases](https://github.com/your-repo/releases)页面
+1. 访问[Releases](https://github.com/silenson/quantum-fortune-teller/releases)页面
 2. 下载适合您系统的安装包：
    - Windows: `.exe`安装文件
    - macOS: `.dmg`安装文件
@@ -42,12 +65,12 @@
 
 1. 克隆项目仓库：
 ```bash
-git clone [仓库地址]
+git clone https://github.com/silenson/quantum-fortune-teller.git
 ```
 
 2. 进入项目目录：
 ```bash
-cd quantum-prediction-system
+cd quantum-fortune-teller
 ```
 
 3. 安装依赖：
@@ -55,9 +78,9 @@ cd quantum-prediction-system
 npm install
 ```
 
-4. 启动开发模式：
+4. 启动应用：
 ```bash
-npm run dev
+npm start
 ```
 
 5. 构建应用：
@@ -65,14 +88,14 @@ npm run dev
 npm run build
 ```
 
-## 使用方法
+## 📊 使用方法
 
 1. 启动应用：
    - Windows: 双击安装目录中的程序图标
    - macOS: 从应用程序文件夹启动
    - Linux: 使用应用启动器或命令行启动
 
-2. 配置API密钥：
+2. 配置API密钥（可选）：
    - 点击设置图标
    - 在API设置中配置您的量子计算API密钥
    - 保存设置
@@ -88,43 +111,41 @@ npm run build
    - 量子电路可视化
    - 个性化建议
 
-## 开发指南
+## 🧩 项目结构
 
-### 项目结构
 ```
 quantum-fortune-teller/
-├── src/                 # 源代码目录
-│   ├── main/           # 主进程代码
-│   ├── renderer/       # 渲染进程代码
-│   └── preload/        # 预加载脚本
-├── assets/             # 资源文件
-├── build/              # 构建配置
-└── dist/               # 构建输出目录
+├── assets/              # 图标和资源文件
+├── scripts/             # JavaScript脚本文件
+│   ├── lib/             # 第三方库
+│   └── quantum-*.js     # 量子相关功能模块
+├── styles/              # CSS样式文件
+├── index.html           # 主页面
+├── main.js              # Electron主进程
+├── preload.js           # 预加载脚本
+├── quantum-engine.js    # 量子算法引擎
+├── quantum-bridge.py    # Python桥接脚本
+├── start.js             # 启动脚本
+├── package.json         # 项目配置
+└── README.md            # 项目说明
 ```
 
-### 可用的npm命令
+## 📈 量子指标说明
 
-- `npm run dev`: 启动开发模式
-- `npm run build`: 构建应用
-- `npm run package`: 打包应用
-- `npm run make`: 创建安装程序
-- `npm test`: 运行测试
-- `npm run lint`: 代码检查
+| 指标 | 说明 |
+|------|------|
+| 纠缠度 | 反映事件间的关联程度 |
+| 相干性 | 表示运势的稳定性 |
+| 不确定性 | 表示变数的大小 |
+| 能量 | 表示运势的强度 |
+| 稳定性 | 表示状态的持续性 |
+| 熵 | 表示混沌与秩序的程度 |
+| 相位 | 表示运势的周期性变化 |
+| 纯度 | 表示预测的准确度 |
+| 干涉 | 表示外部影响的程度 |
+| 保真度 | 表示预测的可信度 |
 
-## 量子指标说明
-
-- 纠缠度：反映事件间的关联程度
-- 相干性：表示运势的稳定性
-- 不确定性：表示变数的大小
-- 能量：表示运势的强度
-- 稳定性：表示状态的持续性
-- 熵：表示混沌与秩序的程度
-- 相位：表示运势的周期性变化
-- 纯度：表示预测的准确度
-- 干涉：表示外部影响的程度
-- 保真度：表示预测的可信度
-
-## 故障排除
+## 🔍 故障排除
 
 1. 应用无法启动
    - 检查系统要求是否满足
@@ -141,46 +162,24 @@ quantum-fortune-teller/
    - 调整系统缩放设置
    - 重启应用程序
 
-## 安全说明
+## 🔒 安全说明
 
 - 所有计算在本地完成，数据不会上传
 - API密钥经过加密存储
 - 定期更新以修复安全问题
 
-## 许可证
+## 📝 许可证
 
 MIT License
 
-## 联系方式
+## 📞 联系方式
 
 如有问题或建议，请通过以下方式联系：
 
-- 提交Issue
-- 发送邮件至：[您的邮箱]
+- [提交Issue](https://github.com/silenson/quantum-fortune-teller/issues)
+- 发送邮件至：quantum@example.com
 
-## 更新日志
-
-### v1.2.0 (2024-03-12)
-- 优化量子电路生成算法
-- 改进预测结果的准确性
-- 增强用户界面交互体验
-- 添加更多量子指标分析
-- 优化Electron性能
-- 减少内存占用
-
-### v1.1.0 (2024-02-15)
-- 添加暗黑模式支持
-- 优化应用启动速度
-- 改进错误处理机制
-- 更新依赖包版本
-
-### v1.0.0 (2024-01-01)
-- 首次发布
-- 基本预测功能
-- 量子电路可视化
-- 多平台支持
-
-## 贡献指南
+## 🤝 贡献指南
 
 欢迎提交问题和功能请求。如果您想贡献代码，请遵循以下步骤：
 
@@ -190,7 +189,7 @@ MIT License
 4. 推送到分支 (`git push origin feature/amazing-feature`)
 5. 打开一个 Pull Request
 
-## 致谢
+## 🙏 致谢
 
 - 感谢Electron社区的支持
 - 感谢所有为本项目做出贡献的开发者
