@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>量子运势预测系统</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/quantum-indicators.css">
+    <!-- 添加SVG渐变定义 -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f72585" />
+                <stop offset="50%" stop-color="#7209b7" />
+                <stop offset="100%" stop-color="#4cc9f0" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <style>
+        /* 保留一些特殊效果的样式 */
+        .quantum-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #e94560;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* API设置面板样式 */
+        .api-settings-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #3a3f58;
+        }
+        
+        .api-settings-panel h3 {
+            color: #e94560;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .api-form-group {
+            margin-bottom: 15px;
+        }
+        
+        .api-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .api-form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            background: #1a1b2e;
+            border: 1px solid #3a3f58;
+            border-radius: 5px;
+            color: #fff;
+            font-family: monospace;
+        }
+        
+        .api-form-group input:focus {
+            border-color: #e94560;
+            outline: none;
+        }
+        
+        .api-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .api-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .save-api-button {
+            background: #e94560;
+            color: #fff;
+        }
+        
+        .save-api-button:hover {
+            background: #d13854;
+        }
+        
+        .test-api-button {
+            background: #3a3f58;
+            color: #fff;
+        }
+        
+        .test-api-button:hover {
+            background: #4a5070;
+        }
+        
+        .api-status {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .api-status.success {
+            background: rgba(39, 174, 96, 0.2);
+            color: #2ecc71;
+            border: 1px solid #27ae60;
+            display: block;
+        }
+        
+        .api-status.error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #c0392b;
+            display: block;
+        }
+        
+        .api-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 5px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .api-info p {
+            margin: 5px 0;
+            font-size: 0.85rem;
+            color: #ddd;
+            line-height: 1.5;
+        }
+        
+        .api-info a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .api-info a:hover {
+            text-decoration: underline;
+            color: #2980b9;
+        }
+        
+        .toggle-api-settings {
+            background: none;
+            border: none;
+            color: #e94560;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>量子运势预测系统</h1>
+            <div class="powered-by">
+                <span>由真实量子计算提供支持</span>
+                <span>科大国盾量子计算云平台（https://quantumctek-cloud.com）</span>
+                <button id="toggle-api-settings" class="toggle-api-settings">API设置</button>
+            </div>
+            <div class="current-datetime" id="current-datetime">
+                <span id="current-date">加载中...</span>
+                <span id="current-time">加载中...</span>
+        </div>
+        </header>
+        
+        <main>
+            <!-- API设置面板 -->
+            <div id="api-settings-panel" class="api-settings-panel" style="display: none;">
+                <h3>国盾量子API设置</h3>
+                <div class="api-form-group">
+                    <label for="api-key">API密钥:</label>
+                    <input type="text" id="api-key" placeholder="输入您的国盾量子API密钥">
+                </div>
+                <div class="api-info">
+                    <p>请输入您的国盾量子API密钥以连接到真实的量子计算机。如果您没有API密钥，系统将使用模拟模式。</p>
+                    <p>您可以通过科大国盾量子计算云平台官网（https://quantumctek-cloud.com）申请API密钥。</p>
+                </div>
+                <div class="api-buttons">
+                    <button id="save-api-button" class="api-button save-api-button">保存设置</button>
+                    <button id="test-api-button" class="api-button test-api-button">测试连接</button>
+                </div>
+                <div id="api-status" class="api-status"></div>
+            </div>
+            
+            <div class="prediction-panel">
+        <div class="input-section">
+                    <div class="form-group">
+                        <label for="birth-date">出生日期:</label>
+                        <input type="date" id="birth-date" value="1990-01-01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time-span">预测范围:</label>
+                        <select id="time-span">
+                    <option value="day">今日运势</option>
+                    <option value="week">本周运势</option>
+                    <option value="month">本月运势</option>
+                    <option value="year">年度运势</option>
+                </select>
+            </div>
+                    
+                    <button id="predict-button" class="predict-button">
+                        <span class="button-text">开始预测</span>
+                        <div class="quantum-loader">
+                            <div class="quantum-spinner"></div>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="result-section" id="result-section">
+                    <div class="scientific-dashboard">
+                        <div class="dashboard-header">
+                            <div class="dashboard-title">量子运势分析</div>
+                            <div class="dashboard-status">状态: <span id="calculation-status">待计算</span></div>
+                        </div>
+                        
+                        <div class="dashboard-main">
+                            <!-- 新的圆形仪表盘设计 -->
+                            <div class="fortune-gauge-container">
+                                <div class="fortune-gauge-wrapper">
+                                    <div class="fortune-gauge modern-gauge">
+                                        <svg viewBox="0 0 200 100" class="gauge-svg">
+                                            <path class="gauge-background" d="M20,90 A70,70 0 1,1 180,90" />
+                                            <path class="gauge-fill" d="M20,90 A70,70 0 1,1 180,90" />
+                                            <text class="gauge-text" x="100" y="85" id="fortune-value-text">--</text>
+                                            <text class="gauge-label" x="100" y="65">量子概率</text>
+                                        </svg>
+                                        <div class="gauge-arrow">
+                                            <div class="arrow-pointer"></div>
+                                        </div>
+                                    </div>
+                                    <div class="fortune-value-display">
+                                        <div class="fortune-value" id="fortune-value">--</div>
+                                        <div class="fortune-label">量子概率</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 新的波形图表设计 -->
+                            <div class="quantum-waveform">
+                                <div class="waveform-header">
+                                    <div class="waveform-title">量子波形分析</div>
+                                    <div class="waveform-legend">
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background-color: #4cc9f0;"></div>
+                                            <div class="legend-label">相干性</div>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background-color: #f72585;"></div>
+                                            <div class="legend-label">纠缠度</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="waveform-container">
+                                    <canvas id="quantum-waveform-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 新的量子指标卡片设计 -->
+                        <div class="quantum-metrics">
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-icon entropy-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M12,2 A10,10 0 1,0 22,12 A10,10 0 0,0 12,2 Z M12,4 A8,8 0 1,1 4,12 A8,8 0 0,1 12,4 Z" />
+                                            <path d="M12,6 A6,6 0 1,0 18,12 A6,6 0 0,0 12,6 Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-label">量子熵</div>
+                                        <div class="metric-value" id="entropy-value">--</div>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill entropy-fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon coherence-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M2,12 C2,6.5 6.5,2 12,2 C17.5,2 22,6.5 22,12" stroke-width="2" fill="none" />
+                                            <path d="M2,12 C2,17.5 6.5,22 12,22 C17.5,22 22,17.5 22,12" stroke-width="2" fill="none" />
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-label">相干性</div>
+                                        <div class="metric-value" id="coherence-value">--</div>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill coherence-fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon entanglement-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <circle cx="8" cy="8" r="4" />
+                                            <circle cx="16" cy="16" r="4" />
+                                            <path d="M10.5,10.5 L13.5,13.5" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-label">纠缠度</div>
+                                        <div class="metric-value" id="entanglement-value">--</div>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill entanglement-fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon phase-icon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M12,2 A10,10 0 0,1 22,12 A10,10 0 0,1 12,22 A10,10 0 0,1 2,12 A10,10 0 0,1 12,2 Z" fill="none" stroke-width="2" />
+                                            <path d="M12,12 L12,5" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-label">量子相位</div>
+                                        <div class="metric-value" id="phase-value">--</div>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill phase-fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="advice-container" id="advice-container">
+                        <div class="advice-placeholder">
+                            <p>点击"开始预测"按钮，获取基于量子计算的运势预测</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 量子电路按钮容器 -->
+                    <div id="quantum-circuit-button-container" style="margin-top: 15px; text-align: center;"></div>
+                </div>
+            </div>
+            
+            <div class="quantum-visualization">
+                <div class="tabs">
+                    <div class="tab active" data-tab="indicators">量子指标</div>
+                    <div class="tab" data-tab="education">量子教程</div>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="indicators-tab" class="tab-pane active">
+                        <div id="quantum-indicators-container" class="quantum-indicators">
+                            <div class="indicators-header">量子指标</div>
+                            <div class="indicators-grid">
+                                <div id="entanglement-indicator" class="indicator">
+                                    <div class="indicator-label">纠缠度</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                                <div id="coherence-indicator" class="indicator">
+                                    <div class="indicator-label">相干性</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                                <div id="uncertainty-indicator" class="indicator">
+                                    <div class="indicator-label">不确定性</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                                <div id="energy-indicator" class="indicator">
+                                    <div class="indicator-label">能量</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.00</div>
+                                </div>
+                                <div id="stability-indicator" class="indicator">
+                                    <div class="indicator-label">稳定性</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                                <div id="entropy-indicator" class="indicator">
+                                    <div class="indicator-label">熵</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                                <div id="phase-indicator" class="indicator">
+                                    <div class="indicator-label">相位</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">3.14</div>
+                                </div>
+                                <div id="purity-indicator" class="indicator">
+                                    <div class="indicator-label">纯度</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 75%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.75</div>
+                                </div>
+                                <div id="interference-indicator" class="indicator">
+                                    <div class="indicator-label">干涉</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.00</div>
+                                </div>
+                                <div id="fidelity-indicator" class="indicator">
+                                    <div class="indicator-label">保真度</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <div class="indicator-value">0.50</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="education-tab">
+                        <div class="quantum-education">
+                            <h3>量子计算基础知识</h3>
+                            <div class="education-section">
+                                <h4>什么是量子比特？</h4>
+                                <p>量子比特（Qubit）是量子计算的基本单位，类似于经典计算中的比特。但与经典比特不同，量子比特可以同时处于多个状态的叠加态。</p>
+                                <div class="quantum-illustration">
+                                    <div class="classical-bit">
+                                        <div class="bit-state">0</div>
+                                        <div class="bit-state">1</div>
+                                        <div class="bit-label">经典比特: 只能是0或1</div>
+                                    </div>
+                                    <div class="quantum-bit">
+                                        <div class="qubit-state">|0⟩</div>
+                                        <div class="qubit-state">|1⟩</div>
+                                        <div class="qubit-superposition">叠加态</div>
+                                        <div class="bit-label">量子比特: 可以是|0⟩、|1⟩或两者的叠加</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="education-section">
+                                <h4>量子叠加态</h4>
+                                <p>量子叠加是量子力学的核心概念，它允许量子系统同时存在于多个状态。当我们测量时，系统会"坍缩"到其中一个状态。</p>
+                                <p>数学上，量子态可以表示为：|ψ⟩ = α|0⟩ + β|1⟩，其中|α|² + |β|² = 1</p>
+                                <div class="quantum-illustration">
+                                    <div class="superposition-animation">
+                                        <div class="wave wave1"></div>
+                                        <div class="wave wave2"></div>
+                                        <div class="interference-pattern"></div>
+                                    </div>
+                                </div>
+        </div>
+        
+                            <div class="education-section">
+                                <h4>量子纠缠</h4>
+                                <p>量子纠缠是指两个或多个量子系统之间的一种特殊关联，使得一个系统的状态不能独立于其他系统来描述。</p>
+                                <p>爱因斯坦称之为"幽灵般的超距作用"，这是量子计算强大能力的关键来源之一。</p>
+                                <div class="quantum-illustration">
+                                    <div class="entanglement-animation">
+                                        <div class="particle particle1"></div>
+                                        <div class="particle particle2"></div>
+                                        <div class="entanglement-line"></div>
+                                    </div>
+                                </div>
+        </div>
+        
+                            <div class="education-section">
+                                <h4>量子门</h4>
+                                <p>量子门是量子计算中的基本操作，类似于经典计算中的逻辑门。常见的量子门包括：</p>
+                                <ul>
+                                    <li><strong>Hadamard门(H)</strong>: 创建叠加态</li>
+                                    <li><strong>Pauli-X门</strong>: 量子比特的"非"门</li>
+                                    <li><strong>CNOT门</strong>: 创建纠缠的两量子比特门</li>
+                                </ul>
+                                <div class="quantum-illustration">
+                                    <div class="quantum-gates">
+                                        <div class="gate">
+                                            <div class="gate-symbol">H</div>
+                                            <div class="gate-label">Hadamard门</div>
+                                        </div>
+                                        <div class="gate">
+                                            <div class="gate-symbol">X</div>
+                                            <div class="gate-label">Pauli-X门</div>
+                                        </div>
+                                        <div class="gate">
+                                            <div class="gate-symbol">•<br>⊕</div>
+                                            <div class="gate-label">CNOT门</div>
+                                        </div>
+                                    </div>
+                                </div>
+        </div>
+        
+                            <div class="education-section">
+                                <h4>国盾量子计算</h4>
+                                <p>国盾量子是中国领先的量子计算技术提供商，致力于开发实用的量子计算机和量子软件。</p>
+                                <p>本应用使用国盾量子提供的量子计算API，通过量子算法生成运势预测。</p>
+                                <div class="quantum-illustration">
+                                    <div class="provider-info">
+                                        <div class="provider-logo">国盾量子</div>
+                                        <div class="provider-description">
+                                            <p>API状态: <span id="api-connection-status">未连接</span></p>
+                                            <p>量子计算机: <span id="quantum-device-info">国盾量子计算机</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </main>
+        
+        <footer>
+            <p>© 2025 量子运势预测系统 | 由国盾量子计算提供支持</p>
+            <p class="disclaimer">免责声明：本应用仅供娱乐，预测结果不应作为重要决策依据。</p>
+        </footer>
+    </div>
+
+    <script src="scripts/quantum-api.js"></script>
+    <script src="scripts/quantum-indicators.js"></script>
+    <!-- 引入本地D3.js库用于量子电路可视化 -->
+    <script src="scripts/lib/d3.v7.min.js"></script>
+    <script src="scripts/quantum-circuit-visualizer.js"></script>
+    <script src="scripts/quantum-visualizer-integration.js"></script>
+    <script>
+        // 初始化量子指标显示
+        let quantumIndicatorsDisplay;
+        
+        // 模拟模式标志
+        let isSimulationMode = true;
+        
+        // 更新当前日期和时间
+        function updateDateTime() {
+            const dateTime = window.quantumAPI.getCurrentDateTime();
+            document.getElementById('current-date').textContent = dateTime.date;
+            document.getElementById('current-time').textContent = dateTime.time;
+        }
+        
+        // 初始化量子指标显示
+        function initQuantumIndicators() {
+            try {
+                // 检查是否存在量子指标容器
+                const container = document.getElementById('quantum-indicators-container');
+                if (container) {
+                    // 创建默认指标数据
+                    const defaultIndicators = {
+                        entanglement: 0.5,
+                        coherence: 0.5,
+                        uncertainty: 0.5,
+                        energy: 0,
+                        stability: 0.5,
+                        entropy: 0.5,
+                        estimated_phase: Math.PI,
+                        purity: 0.75,
+                        interference: 0,
+                        fidelity: 0.5
+                    };
+                    
+                    // 初始化量子指标显示
+                    quantumIndicatorsDisplay = {
+                        updateIndicators: function(indicators) {
+                            console.log('更新量子指标:', indicators);
+                            
+                            // 更新指标显示
+                            updateIndicatorDisplay('entanglement', indicators.entanglement);
+                            updateIndicatorDisplay('coherence', indicators.coherence);
+                            updateIndicatorDisplay('uncertainty', indicators.uncertainty);
+                            updateIndicatorDisplay('energy', indicators.energy, -1, 1);
+                            updateIndicatorDisplay('stability', indicators.stability);
+                            updateIndicatorDisplay('entropy', indicators.entropy);
+                            updateIndicatorDisplay('phase', indicators.estimated_phase, 0, 2 * Math.PI);
+                            updateIndicatorDisplay('purity', indicators.purity);
+                            updateIndicatorDisplay('interference', indicators.interference, -1, 1);
+                            updateIndicatorDisplay('fidelity', indicators.fidelity);
+                        }
+                    };
+                    
+                    // 初始化默认指标
+                    quantumIndicatorsDisplay.updateIndicators(defaultIndicators);
+                    
+                    console.log('量子指标显示已初始化');
+                } else {
+                    console.error('找不到量子指标容器');
+                }
+            } catch (error) {
+                console.error('初始化量子指标显示时出错:', error);
+            }
+        }
+        
+        // 更新单个指标显示
+        function updateIndicatorDisplay(name, value, min = 0, max = 1) {
+            try {
+                const element = document.getElementById(`${name}-indicator`);
+                if (element) {
+                    // 归一化值到0-100范围
+                    const normalizedValue = ((value - min) / (max - min)) * 100;
+                    
+                    // 更新进度条
+                    const progressBar = element.querySelector('.progress-bar');
+                    if (progressBar) {
+                        progressBar.style.width = `${normalizedValue}%`;
+                    }
+                    
+                    // 更新值显示
+                    const valueDisplay = element.querySelector('.indicator-value');
+                    if (valueDisplay) {
+                        valueDisplay.textContent = value.toFixed(2);
+                    }
+                }
+            } catch (error) {
+                console.error(`更新指标 ${name} 显示时出错:`, error);
+            }
+        }
+        
+        // 根据运势值获取建议类别
+        function getAdviceClass(fortune) {
+            if (fortune >= 0.9) return 'excellent';
+            if (fortune >= 0.7) return 'good';
+            if (fortune >= 0.4) return 'neutral';
+            if (fortune >= 0.2) return 'warning';
+            return 'bad';
+        }
+        
+        // 根据运势值获取建议标题
+        function getAdviceTitle(fortune) {
+            if (fortune >= 0.9) return '大吉 - 极佳运势';
+            if (fortune >= 0.7) return '吉 - 良好运势';
+            if (fortune >= 0.4) return '中 - 平稳运势';
+            if (fortune >= 0.2) return '小凶 - 谨慎行事';
+            return '凶 - 不宜行动';
+        }
+        
+        // 预测函数
+        async function predict() {
+            try {
+                // 显示加载动画
+                const predictButton = document.getElementById('predict-button');
+                predictButton.classList.add('loading');
+                predictButton.disabled = true;
+                
+                // 更新计算状态
+                document.getElementById('calculation-status').textContent = isSimulationMode ? 
+                    '模拟计算中...' : '量子计算中...';
+                document.getElementById('calculation-status').style.color = '#f39c12';
+                
+                // 初始化光谱动画
+                initSpectrumAnimation();
+                
+                // 获取输入参数
+                const birthDate = document.getElementById('birth-date').value;
+                const timeSpan = document.getElementById('time-span').value;
+                
+                // 调用量子API，传入模拟模式标志
+                const result = await window.quantumAPI.predict({
+                    birthDate: birthDate,
+                    timeSpan: timeSpan,
+                    simulationMode: isSimulationMode
+                });
+                
+                console.log('收到预测结果:', result);
+                
+                // 更新计算状态
+                document.getElementById('calculation-status').textContent = isSimulationMode ? 
+                    '模拟计算完成' : '量子计算完成';
+                document.getElementById('calculation-status').style.color = '#2ecc71';
+                
+                // 更新运势值
+                const fortuneValue = document.getElementById('fortune-value');
+                const fortuneValueNum = result.fortune;
+                fortuneValue.textContent = fortuneValueNum.toFixed(2);
+                
+                // 更新仪表盘指针
+                updateFortuneDisplay(fortuneValueNum);
+                
+                // 更新光谱条
+                updateFortuneSpectrum(fortuneValueNum);
+                
+                // 更新数据值
+                if (result.indicators) {
+                    // 确保数据存在，如果不存在则使用默认值
+                    const entropy = result.indicators.entropy !== undefined ? result.indicators.entropy : 0.5;
+                    const coherence = result.indicators.coherence !== undefined ? result.indicators.coherence : 0.5;
+                    const entanglement = result.indicators.entanglement !== undefined ? result.indicators.entanglement : 0.5;
+                    const phase = result.indicators.estimated_phase !== undefined ? result.indicators.estimated_phase : Math.PI;
+                    
+                    document.getElementById('entropy-value').textContent = entropy.toFixed(2);
+                    document.getElementById('coherence-value').textContent = coherence.toFixed(2);
+                    document.getElementById('entanglement-value').textContent = entanglement.toFixed(2);
+                    document.getElementById('phase-value').textContent = phase.toFixed(2);
+                    
+                    // 添加数据项动画效果
+                    animateDataItems();
+                }
+                
+                // 更新建议
+                if (result.advice) {
+                    const adviceContainer = document.getElementById('advice-container');
+                    adviceContainer.innerHTML = `
+                        <div class="advice-header ${getAdviceClass(result.fortune)}">
+                            ${getAdviceTitle(result.fortune)}
+                            ${isSimulationMode ? '<small style="font-size: 0.7em; opacity: 0.8;">(模拟模式)</small>' : ''}
+                        </div>
+                        <div class="advice-content">
+                            ${result.advice}
+                            ${isSimulationMode ? '<p class="simulation-note" style="margin-top: 15px; font-style: italic; color: #888;">注意：当前使用模拟模式生成预测，如需真实量子计算请在API设置中配置密钥。</p>' : ''}
+                        </div>
+                    `;
+                    
+                    // 触发量子电路可视化事件
+                    const event = new CustomEvent('quantumPredictionComplete', {
+                        detail: result
+                    });
+                    document.dispatchEvent(event);
+                    
+                    // 显示量子电路按钮容器
+                    const buttonContainer = document.getElementById('quantum-circuit-button-container');
+                    if (buttonContainer) {
+                        buttonContainer.style.display = 'block';
+                        console.log('已显示量子电路按钮容器');
+                        
+                        // 确保按钮可见
+                        const circuitButton = buttonContainer.querySelector('.show-quantum-circuit-button');
+                        if (circuitButton) {
+                            circuitButton.style.display = 'block';
+                            console.log('已显示查看量子电路按钮');
+                        } else {
+                            console.error('未找到查看量子电路按钮');
+                        }
+                    }
+                }
+                
+                // 更新量子指标 - 检查quantumIndicatorsDisplay是否已初始化
+                if (typeof quantumIndicatorsDisplay !== 'undefined' && quantumIndicatorsDisplay && result.indicators) {
+                    quantumIndicatorsDisplay.updateIndicators(result.indicators);
+                } else {
+                    console.log('量子指标显示未初始化或没有指标数据');
+                }
+                
+                // 更新API连接状态
+                document.getElementById('api-connection-status').textContent = isSimulationMode ? 
+                    '模拟模式' : '已连接';
+                document.getElementById('api-connection-status').style.color = isSimulationMode ? 
+                    '#f39c12' : '#2ecc71';
+                
+            } catch (error) {
+                console.error('预测失败:', error);
+                
+                // 更新计算状态
+                document.getElementById('calculation-status').textContent = '计算失败';
+                document.getElementById('calculation-status').style.color = '#e74c3c';
+                
+                // 显示错误信息
+                const adviceContainer = document.getElementById('advice-container');
+                adviceContainer.innerHTML = `
+                    <div class="advice-header error">预测失败</div>
+                    <div class="advice-content">
+                        <p>${isSimulationMode ? '模拟' : '量子'}预测过程中出现错误。</p>
+                        <p><strong>错误信息:</strong> ${error.message || '未知错误'}</p>
+                        <p><strong>建议:</strong> ${isSimulationMode ? 
+                            '模拟模式也出现错误，请稍后再试或配置API密钥使用真实量子计算。' : 
+                            '请检查API设置并稍后再次尝试。'}</p>
+                    </div>
+                `;
+                
+                // 重置运势值
+                const fortuneValue = document.getElementById('fortune-value');
+                fortuneValue.textContent = '--';
+                
+                // 更新API连接状态
+                document.getElementById('api-connection-status').textContent = isSimulationMode ? 
+                    '模拟模式' : '连接失败';
+                document.getElementById('api-connection-status').style.color = isSimulationMode ? 
+                    '#f39c12' : '#e74c3c';
+                
+            } finally {
+                // 隐藏加载动画
+                const predictButton = document.getElementById('predict-button');
+                predictButton.classList.remove('loading');
+                predictButton.disabled = false;
+            }
+        }
+        
+        // 初始化光谱动画
+        function initSpectrumAnimation() {
+            const bars = document.querySelectorAll('.spectrum-bar');
+            
+            // 创建加载动画效果
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.height = `${10 + Math.random() * 20}%`;
+                }, index * 100);
+                
+                // 每隔一段时间改变高度，模拟数据处理
+                let interval = setInterval(() => {
+                    bar.style.height = `${10 + Math.random() * 30}%`;
+                }, 500 + index * 100);
+                
+                // 30秒后清除动画
+                setTimeout(() => {
+                    clearInterval(interval);
+                }, 30000);
+            });
+        }
+        
+        // 更新运势光谱
+        function updateFortuneSpectrum(fortuneValue) {
+            // 生成8个随机但与运势值相关的光谱条高度
+            const baseHeight = fortuneValue * 100; // 基础高度
+            const bars = document.querySelectorAll('.spectrum-bar');
+            
+            // 清除所有动画间隔
+            bars.forEach((bar) => {
+                if (bar.interval) {
+                    clearInterval(bar.interval);
+                    bar.interval = null;
+                }
+            });
+            
+            bars.forEach((bar, index) => {
+                // 生成一个围绕基础高度的随机值，但确保与运势值相关
+                let variance = Math.random() * 30 - 15; // -15到15的随机偏差
+                let height = baseHeight + variance;
+                
+                // 确保高度在10%到100%之间
+                height = Math.max(10, Math.min(100, height));
+                
+                // 设置延迟，使动画更有趣
+                setTimeout(() => {
+                    bar.style.height = `${height}%`;
+                    
+                    // 添加轻微的动画效果
+                    bar.interval = setInterval(() => {
+                        let newHeight = height + (Math.random() * 6 - 3);
+                        newHeight = Math.max(height - 5, Math.min(height + 5, newHeight));
+                        bar.style.height = `${newHeight}%`;
+                    }, 2000 + index * 200);
+                }, index * 100);
+            });
+        }
+        
+        // 添加数据项动画效果
+        function animateDataItems() {
+            const dataItems = document.querySelectorAll('.data-item');
+            
+            dataItems.forEach((item, index) => {
+                // 添加延迟出现效果
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        }
+        
+        // 初始化API设置面板
+        function initApiSettings() {
+            // 获取API设置按钮和面板
+            const toggleButton = document.getElementById('toggle-api-settings');
+            const apiPanel = document.getElementById('api-settings-panel');
+            const saveButton = document.getElementById('save-api-button');
+            const testButton = document.getElementById('test-api-button');
+            const apiKeyInput = document.getElementById('api-key');
+            const apiStatus = document.getElementById('api-status');
+            
+            // 加载保存的API设置
+            window.quantumAPI.getApiSettings().then(settings => {
+                if (settings.apiKey) {
+                    apiKeyInput.value = settings.apiKey;
+                    isSimulationMode = false;
+                } else {
+                    isSimulationMode = true;
+                }
+                
+                // 更新API连接状态
+                updateModeDisplay();
+                
+            }).catch(error => {
+                console.error('获取API设置失败:', error);
+                isSimulationMode = true;
+                updateModeDisplay();
+            });
+            
+            // 更新模式显示
+            function updateModeDisplay() {
+                // 更新仪表盘标题
+                const dashboardTitle = document.querySelector('.dashboard-title');
+                if (dashboardTitle) {
+                    dashboardTitle.textContent = isSimulationMode ? 
+                        '模拟运势分析' : '量子运势分析';
+                }
+                
+                // 更新API连接状态
+                const connectionStatus = document.getElementById('api-connection-status');
+                if (connectionStatus) {
+                    connectionStatus.textContent = isSimulationMode ? '模拟模式' : '已配置';
+                    connectionStatus.style.color = isSimulationMode ? '#f39c12' : '#3498db';
+                }
+                
+                // 更新计算状态
+                const calculationStatus = document.getElementById('calculation-status');
+                if (calculationStatus && calculationStatus.textContent === '待计算') {
+                    calculationStatus.textContent = `待计算 (${isSimulationMode ? '模拟模式' : '量子模式'})`;
+                }
+            }
+            
+            // 切换API设置面板显示
+            toggleButton.addEventListener('click', () => {
+                if (apiPanel.style.display === 'none') {
+                    apiPanel.style.display = 'block';
+                } else {
+                    apiPanel.style.display = 'none';
+                }
+            });
+            
+            // 保存API设置
+            saveButton.addEventListener('click', async () => {
+                try {
+                    const apiKey = apiKeyInput.value.trim();
+                    
+                    // 保存API设置
+                    await window.quantumAPI.saveApiSettings({
+                        apiKey: apiKey
+                    });
+                    
+                    // 更新模拟模式标志
+                    isSimulationMode = !apiKey;
+                    
+                    // 显示成功消息
+                    apiStatus.textContent = `API设置已保存，当前为${isSimulationMode ? '模拟' : '量子计算'}模式`;
+                    apiStatus.className = 'api-status success';
+                    
+                    // 更新模式显示
+                    updateModeDisplay();
+                    
+                    // 3秒后隐藏消息
+                    setTimeout(() => {
+                        apiStatus.style.display = 'none';
+                    }, 3000);
+                    
+                } catch (error) {
+                    console.error('保存API设置失败:', error);
+                    
+                    // 显示错误消息
+                    apiStatus.textContent = `保存失败: ${error.message}`;
+                    apiStatus.className = 'api-status error';
+                }
+            });
+            
+            // 测试API连接
+            testButton.addEventListener('click', async () => {
+                try {
+                    const apiKey = apiKeyInput.value.trim();
+                    
+                    if (!apiKey) {
+                        throw new Error('API密钥不能为空，当前为模拟模式');
+                    }
+                    
+                    // 测试API连接
+                    const result = await window.quantumAPI.testApiConnection({
+                        apiKey: apiKey
+                    });
+                    
+                    if (result.success) {
+                        // 显示成功消息
+                        apiStatus.textContent = `连接成功: ${result.message}`;
+                        apiStatus.className = 'api-status success';
+                        
+                        // 更新模拟模式标志
+                        isSimulationMode = false;
+                        
+                        // 更新API连接状态
+                        document.getElementById('api-connection-status').textContent = '已连接';
+                        document.getElementById('api-connection-status').style.color = '#2ecc71';
+                        
+                        // 更新量子设备信息
+                        if (result.device) {
+                            document.getElementById('quantum-device-info').textContent = result.device.name;
+                        }
+                        
+                        // 更新模式显示
+                        updateModeDisplay();
+                    } else {
+                        // 显示错误消息
+                        apiStatus.textContent = `连接失败: ${result.message}`;
+                        apiStatus.className = 'api-status error';
+                        
+                        // 更新API连接状态
+                        document.getElementById('api-connection-status').textContent = '连接失败';
+                        document.getElementById('api-connection-status').style.color = '#e74c3c';
+                    }
+                    
+                } catch (error) {
+                    console.error('测试API连接失败:', error);
+                    
+                    // 显示错误消息
+                    apiStatus.textContent = `连接失败: ${error.message}`;
+                    apiStatus.className = 'api-status error';
+                    
+                    // 更新API连接状态
+                    document.getElementById('api-connection-status').textContent = '连接失败';
+                    document.getElementById('api-connection-status').style.color = '#e74c3c';
+                }
+            });
+        }
+        
+        // 初始化标签切换
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 移除所有活动类
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+                    
+                    // 添加活动类到当前标签
+                    tab.classList.add('active');
+                    const tabId = `${tab.dataset.tab}-tab`;
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // 当DOM内容加载完成时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化量子指标显示
+            initQuantumIndicators();
+            
+            // 更新当前日期和时间
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // 添加预测按钮事件监听器
+            document.getElementById('predict-button').addEventListener('click', predict);
+            
+            // 初始化标签切换
+            initTabs();
+            
+            // 初始化API设置面板
+            initApiSettings();
+            
+            // 初始化运势指数显示
+            initFortuneGauge();
+        });
+        
+        // 初始化运势指数显示
+        function initFortuneGauge() {
+            // 初始化科学仪表盘
+            const gaugeNeedle = document.querySelector('.gauge-needle');
+            
+            if (gaugeNeedle) {
+                // 设置初始位置
+                gaugeNeedle.style.transform = 'translate(-50%, 0) rotate(-60deg)';
+            }
+            
+            // 初始化光谱条
+            const bars = document.querySelectorAll('.spectrum-bar');
+            bars.forEach(bar => {
+                bar.style.height = '10%';
+            });
+            
+            // 初始化数据值
+            document.getElementById('entropy-value').textContent = '--';
+            document.getElementById('coherence-value').textContent = '--';
+            document.getElementById('entanglement-value').textContent = '--';
+            document.getElementById('phase-value').textContent = '--';
+            
+            // 设置计算状态
+            document.getElementById('calculation-status').textContent = '待计算';
+            document.getElementById('calculation-status').style.color = '#aaa';
+            
+            // 添加仪表盘刻度标记的动画效果
+            const scaleMarkers = document.querySelectorAll('.scale-marker');
+            scaleMarkers.forEach((marker, index) => {
+                marker.style.opacity = '0';
+                setTimeout(() => {
+                    marker.style.opacity = '1';
+                }, index * 200);
+            });
+        }
+        
+        function updateFortuneDisplay(fortuneValue) {
+            const fortuneValueNum = parseFloat(fortuneValue);
+            const gaugeNeedle = document.querySelector('.gauge-needle');
+            const fortuneValueDisplay = document.querySelector('.fortune-value');
+            
+            // 计算指针旋转角度 (-60度到60度的范围)
+            const needleRotation = -60 + (fortuneValueNum * 120);
+            
+            // 设置指针旋转
+            if (gaugeNeedle) {
+                gaugeNeedle.style.transform = `translate(-50%, 0) rotate(${needleRotation}deg)`;
+            }
+            
+            // 更新运势值显示
+            if (fortuneValueDisplay) {
+                fortuneValueDisplay.textContent = fortuneValue.toFixed(3);
+                
+                // 根据运势值设置颜色
+                let color1, color2;
+                if (fortuneValueNum <= 0.2) {
+                    color1 = '#e74c3c';
+                    color2 = '#f39c12';
+                } else if (fortuneValueNum <= 0.5) {
+                    color1 = '#f39c12';
+                    color2 = '#3498db';
+                } else if (fortuneValueNum <= 0.7) {
+                    color1 = '#3498db';
+                    color2 = '#2ecc71';
+                } else {
+                    color1 = '#2ecc71';
+                    color2 = '#27ae60';
+                }
+                
+                fortuneValueDisplay.style.background = `linear-gradient(to right, ${color1}, ${color2})`;
+                fortuneValueDisplay.style.webkitBackgroundClip = 'text';
+                fortuneValueDisplay.style.backgroundClip = 'text';
+                fortuneValueDisplay.style.webkitTextFillColor = 'transparent';
+            }
+        }
+    </script>
+</body>
+</html> 
