@@ -27,8 +27,11 @@
 
 #### Windows安装：
 1. 下载`quantum-fortune-teller-windows-x64.zip`
-2. 解压文件到任意位置
-3. 双击`量子运势预测系统.exe`运行程序
+2. 确保您的系统已安装 Python 3.6 或更高版本
+3. 安装必要的 Python 依赖：`pip install numpy`
+4. 解压缩发布包到任意目录
+5. 运行 `quantum-fortune-teller.exe` 启动应用程序
+
 
 #### Linux安装：
 1. 下载`quantum-fortune-teller-linux-x64.zip`
